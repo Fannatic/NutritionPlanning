@@ -14,13 +14,14 @@ interface IngridientFormProps {
     dataToUpdate?: any;
     setIngridientFormMode: any;
     setIngridientDataToUpdate: any;
+    setOpenIngridientForm: any;
 }
 
 function IngridientForm(props: IngridientFormProps) {
     const [validated, setValidated] = useState(false);
     const [editedData, setEditedData] = useState<any>(undefined);
 
-    const { mode, dataToUpdate, setIngridientFormMode, setIngridientDataToUpdate } = props;
+    const { mode, dataToUpdate, setIngridientFormMode, setIngridientDataToUpdate, setOpenIngridientForm } = props;
 
     const [addIngridient, { error: postError }] = useAddIngridientMutation();
     const [updateIngridient, { error: patchError }] = useUpdateIngridientMutation();
@@ -155,12 +156,18 @@ function IngridientForm(props: IngridientFormProps) {
                         </Form.Control.Feedback>
                     </Form.Group>
                 </Row>
-                <Button disabled={validated} onClick={handleRequest} type="submit">
+                <Button disabled={validated} onClick={handleRequest}>
                     {
                         mode == "Update" ?
                             "Update ingridient" : "Add ingridient"
                     }
                 </Button>
+                {' '}
+                <Button onClick={() => setOpenIngridientForm(false)}>
+                    Close
+                </Button>
+
+                
             </Form>
         </div>
     );

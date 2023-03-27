@@ -1,6 +1,6 @@
 import Modal from 'react-bootstrap/Modal';
-import { useGetAllIngridientsQuery } from "./../app/ingridientsApi";
-import { useGetXrefsForRecipesQuery } from "./../app/recipesApi";
+import { useGetAllIngridientsQuery } from "../app/ingridientsApi";
+import { useGetXrefsForRecipesQuery } from "../app/recipesApi";
 
 import ListGroup from 'react-bootstrap/ListGroup';
 import { FaPlus } from "react-icons/fa";

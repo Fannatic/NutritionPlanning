@@ -7,12 +7,9 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { FaPlus, FaEraser, FaTrash } from "react-icons/fa";
 import { Recipe } from '@reduxjs/toolkit/dist/query/core/buildThunks';
-import { useGetXrefsForRecipesQuery, useDeleteXrefMutation, useAddXrefMutation, useUpdateRecipeMutation, useAddRecipeMutation } from "./../app/recipesApi";
-import { useGetAllIngridientsQuery } from "./../app/ingridientsApi";
-import { Typeahead } from "react-bootstrap-typeahead";
+import { useGetXrefsForRecipesQuery, useDeleteXrefMutation, useAddXrefMutation, useUpdateRecipeMutation, useAddRecipeMutation } from "../app/recipesApi";
+import { useGetAllIngridientsQuery } from "../app/ingridientsApi";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'react-bootstrap-typeahead/css/Typeahead.css';
-import 'react-bootstrap-typeahead/css/Typeahead.bs5.css';
 import IngridientsModal from './IngridientsModal';
 import { AiOutlineClear } from "react-icons/ai";
 
@@ -22,6 +19,7 @@ interface RecipeFormProps {
   dataToUpdate?: any;
   setRecipeFormMode: any;
   setRecipeDataToUpdate: any;
+  setOpenRecipesForm: any;
 }
 
 function RecipeForm(props: RecipeFormProps) {
@@ -41,9 +39,7 @@ function RecipeForm(props: RecipeFormProps) {
   const [updateRecipe, { error: updateRecipeError }] =  useUpdateRecipeMutation();
   const [addRecipe, { error: addRecipeError }] =  useAddRecipeMutation();
 
-  const { mode, dataToUpdate, setRecipeFormMode, setRecipeDataToUpdate } = props;
-
-  const ref = React.createRef();
+  const { mode, dataToUpdate, setRecipeFormMode, setRecipeDataToUpdate, setOpenRecipesForm } = props;
 
   useEffect(() => {
     setEditedData(dataToUpdate);
@@ -73,8 +69,13 @@ function RecipeForm(props: RecipeFormProps) {
 
   const add = () => {
     addRecipe(editedData);
-    setRecipeFormMode("Update");
+    setRecipeFormMode("Create");
     setEditedData(editedData);
+    setOpenRecipesForm(false);
+  }
+
+  const close = () => {
+    setOpenRecipesForm(false);
   }
 
   const addIngridient = (rId, iId) => {
@@ -183,14 +184,14 @@ function RecipeForm(props: RecipeFormProps) {
               onClick={
                 mode == "Update" ?
                   () => update() : () => add()
-              }
-        type="submit">
+              }>
           {
             mode == "Update" ?
               "Update recipe" : "Add recipe"
           }
-
-    
+        </Button>{' '}
+        <Button onClick={() => close()}> 
+          Close
         </Button>{' '}
       </Form>
       {editedData &&
