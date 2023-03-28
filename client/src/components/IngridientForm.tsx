@@ -4,7 +4,6 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { AiOutlineClear } from "react-icons/ai";
 import { useAddIngridientMutation, useUpdateIngridientMutation } from '../app/ingridientsApi';
 
 
@@ -20,6 +19,7 @@ interface IngridientFormProps {
 function IngridientForm(props: IngridientFormProps) {
     const [validated, setValidated] = useState(false);
     const [editedData, setEditedData] = useState<any>(undefined);
+    const [fadeOut, setFadeOut] = useState<any>(false);
 
     const { mode, dataToUpdate, setIngridientFormMode, setIngridientDataToUpdate, setOpenIngridientForm } = props;
 
@@ -49,18 +49,16 @@ function IngridientForm(props: IngridientFormProps) {
     }
 
     const handleRequest = () => {
+        setFadeOut(true);
         mode == "Update" ?
         updateIngridient(editedData) : addIngridient(editedData)
+        setOpenIngridientForm(false);
     }
 
 
     return (
-        <div>
-            <h3>Ingrident Form<Button onClick={()=> {
-            setEditedData(undefined)
-            setIngridientFormMode(undefined)
-            setIngridientDataToUpdate(undefined)
-            }} variant="link"><AiOutlineClear/> </Button>{' '}</h3> 
+        <div className={!fadeOut ? "fadeIn" : ""}>
+            <h3>Ingrident Form</h3> 
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Row className="mb-3">
                     <Form.Group as={Col} md="4" controlId="validationCustom01">

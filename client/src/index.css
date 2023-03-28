@@ -20,3 +20,59 @@ code {
   color: white;
   text-align: center;
 }
+
+@media (max-width: 768px) { 
+  .sidebar {
+    min-height: 40px !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    align-content: center;
+  } 
+
+  #content {
+    margin-top: 70px;
+  }
+
+  .sidebar h5 {
+    display: none;
+  }
+
+}
+
+.custom-button-style {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  cursor: pointer;
+  }
+
+.custom-button-style:hover {
+  background-color: #11151c;
+}
+
+.custom-button-style:disabled {
+  color: #8c8f96;
+  cursor: default;
+}
+
+.fadeIn {
+  -webkit-animation: fadein 0.5s linear forwards;
+  animation: fadein 0.5s linear forwards;
+}
+
+@-webkit-keyframes fadein {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes fadein {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}

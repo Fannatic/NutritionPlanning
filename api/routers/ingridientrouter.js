@@ -4,10 +4,6 @@ const db = require('../dataAccess/sqlite');
 
 const ingridient = require('../controllers/ingridientcontroller')
 
-app.get("/", (req, res, next) => {
-    res.json({"message":"Ok"})
-});
-
 app.get("/Ingridients", (req, res, next) => {
     var sql = "select * from Ingridients"
     var params = []
@@ -85,17 +81,34 @@ app.put("/Ingridients/:id", (req, res, next) => {
 })
 
 app.delete("/Ingridients/:id", (req, res, next) => {
-    var sql ="delete from Ingridients where id = ?"
-    var params = [req.params.id]
-    db.run(sql, params, function (err, result) {
-        if (err){
-            res.status(400).json({"error": err})
-            return;
-        }
-        res.json({
-            "message": "success",
-            "data": "Status OK",    
-        })
+
+    var param = req.params.id
+
+    db.serialize(function () {
+
+        db.run("BEGIN");
+
+        db.run(`delete from Ingridients where id = ${param}`, function (err, row) {
+            if (err) {
+                console.log(err);
+                res.end("Transaction cancelled");
+            }
+            else {
+                db.run(`delete from IngridientsInRecipesXrefs where ingridientId = ${param}`, function (err, row) {
+                    if (err) {
+                        console.log(err);
+                        db.rollback;
+                        res.end("Transaction cancelled");
+                    }
+                    else {
+                        db.run('commit');
+                        res.end("Transaction succeed");
+                    }
+                });
+
+            }
+
+        });
     });
 })
 
