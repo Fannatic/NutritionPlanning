@@ -10,6 +10,7 @@ import { useGetXrefsForRecipesQuery, useDeleteXrefMutation, useAddXrefMutation, 
 import { useGetAllIngridientsQuery } from "../app/ingridientsApi";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import IngridientsModal from './IngridientsModal';
+import RecipeNutritionInfo from './RecipeNutritionInfo';
 
 interface RecipeFormProps {
   //Create or Update
@@ -89,17 +90,17 @@ function RecipeForm(props: RecipeFormProps) {
     const fats = data.data.filter(x => x.recipeId == editedData.id).map(y => ingridients.data.find(({ id }) => id == y.ingridientId)).map(z => z.fat).reduce((accumulator, current) => accumulator + current, 0)
     const carbs = data.data.filter(x => x.recipeId == editedData.id).map(y => ingridients.data.find(({ id }) => id == y.ingridientId)).map(z => z.carbs).reduce((accumulator, current) => accumulator + current, 0)
     const kcal = data.data.filter(x => x.recipeId == editedData.id).map(y => ingridients.data.find(({ id }) => id == y.ingridientId)).map(z => z.kcal).reduce((accumulator, current) => accumulator + current, 0)
-    const temp = {
+    const calculatedNutritions = {
       proteins,
       fats,
       carbs,
       kcal
     }
-    const temp2 = {
+    const newRecalculatedRecipe = {
       ...editedData,
-      ...temp
+      ...calculatedNutritions
     }
-    setEditedData(temp2);
+    setEditedData(newRecalculatedRecipe);
   }
 
   return (
@@ -139,9 +140,6 @@ function RecipeForm(props: RecipeFormProps) {
                     }}>
                       <FaTrash />
                     </Button>{' '}
-                    {/* <Badge bg="secondary" pill>
-                  5
-                </Badge> */}
                   </ListGroup.Item>)
               }
             </ListGroup> <br />
@@ -154,27 +152,7 @@ function RecipeForm(props: RecipeFormProps) {
           </Form.Group>
         </Row>
         {editedData && data.data.filter(x => x.recipeId == editedData.id) &&
-          <div className="mb-2">
-            <Badge bg="secondary" pill>
-              Total protein:  {ingridients && data && editedData &&
-                data.data.filter(x => x.recipeId == editedData.id).map(y => ingridients.data.find(({ id }) => id == y.ingridientId)).map(z => z.protein).reduce((accumulator, current) => accumulator + current, 0)
-              }g</Badge>{' '}
-            <Badge bg="secondary" pill>
-              Total Fat: {ingridients && data && editedData &&
-                data.data.filter(x => x.recipeId == editedData.id).map(y => ingridients.data.find(({ id }) => id == y.ingridientId)).map(z => z.fat).reduce((accumulator, current) => accumulator + current, 0)
-              }g
-            </Badge>{' '}
-            <Badge bg="secondary" pill>
-              Total Carbs: {ingridients && data && editedData &&
-                data.data.filter(x => x.recipeId == editedData.id).map(y => ingridients.data.find(({ id }) => id == y.ingridientId)).map(z => z.carbs).reduce((accumulator, current) => accumulator + current, 0)
-              }g
-            </Badge>{' '}
-            <Badge bg="secondary" pill>
-              Total kcal: {ingridients && data && editedData &&
-                data.data.filter(x => x.recipeId == editedData.id).map(y => ingridients.data.find(({ id }) => id == y.ingridientId)).map(z => z.kcal).reduce((accumulator, current) => accumulator + current, 0)
-              }
-            </Badge>{' '}
-          </div>
+          <RecipeNutritionInfo editedRecipe={editedData} xrefs={data} ingridients={ingridients} />
         }
         <Button
           onClick={
