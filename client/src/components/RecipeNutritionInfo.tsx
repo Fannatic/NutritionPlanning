@@ -1,23 +1,19 @@
 import React, { useState } from 'react';
-import ListGroup from 'react-bootstrap/ListGroup';
-import { FaWrench, FaTrash, FaPlus } from "react-icons/fa";
-import Button from 'react-bootstrap/Button';
-import { useGetAllIngridientsQuery, useDeleteIngridientMutation } from "../app/ingridientsApi";
 import Badge from 'react-bootstrap/Badge';
+import { Recipe, IngridientInRecipeXref, Ingridient } from "../interfaces";
 
 interface RecipeNutritionInfoProps {
-    //Create or Update
-    editedRecipe: any;
-    xrefs: any;
-    ingridients: any;
+    editedRecipe: Recipe;
+    xrefs: IngridientInRecipeXref[];
+    ingridients: Ingridient[];
 }
 
 function RecipeNutritionInfo(props: RecipeNutritionInfoProps) {
 
     const { editedRecipe, xrefs, ingridients } = props;
 
-    const calculateTotalValue = (name) =>{
-        return xrefs.data.filter(x => x.recipeId == editedRecipe.id).map(y => ingridients.data.find(({ id }) => id == y.ingridientId)).map(z => z[name]).reduce((accumulator, current) => accumulator + current, 0)
+    const calculateTotalValue = (name) => {
+        return xrefs.filter(x => x.recipeId == editedRecipe.id).map(y => ingridients.find(({ id }) => id == y.ingridientId)).map(z => z![name]).reduce((accumulator, current) => accumulator + current, 0)
     }
 
     return (
@@ -26,11 +22,11 @@ function RecipeNutritionInfo(props: RecipeNutritionInfoProps) {
                 <div>
                     <Badge bg="secondary" pill>
                         <span>
-                        Total protein:  {
-                            calculateTotalValue('protein')
-                        }g
+                            Total protein:  {
+                                calculateTotalValue('protein')
+                            }g
                         </span>
-                        </Badge>{' '}
+                    </Badge>{' '}
                     <Badge bg="secondary" pill>
                         Total Fat: {
                             calculateTotalValue('fat')

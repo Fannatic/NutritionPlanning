@@ -12,10 +12,9 @@ app.get("/Recipes", (req, res, next) => {
             res.status(400).json({ "error": err.message });
             return;
         }
-        res.json({
-            "message": "success",
-            "data": rows
-        })
+        res.json([
+            ...rows
+        ])
     });
 });
 
@@ -104,10 +103,9 @@ app.get("/Recipes/Ingridients", (req, res, next) => {
             res.status(400).json({ "error": err.message });
             return;
         }
-        res.json({
-            "message": "success",
-            "data": rows
-        })
+        res.json([
+            ...rows
+        ])
     });
 });
 
@@ -138,10 +136,9 @@ app.get("/IngridientsInRecipes/:recipeId", (req, res, next) => {
             res.status(400).json({ "error": err.message });
             return;
         }
-        res.json({
-            "message": "success",
-            "data": rows
-        })
+        res.json([
+            ...rows
+        ])
     });
 });
 

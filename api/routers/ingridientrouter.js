@@ -12,10 +12,9 @@ app.get("/Ingridients", (req, res, next) => {
           res.status(400).json({"error":err.message});
           return;
         }
-        res.json({
-            "message":"success",
-            "data":rows
-        })
+        res.json([
+            ...rows
+        ])
       });
 });
 
@@ -38,10 +37,9 @@ app.post("/Ingridients/", (req, res, next) => {
         kcal : req.body.kcal,
         carbs : req.body.carbs,
         unitId : req.body.unitId,
-        amount: req.body.amount
     }
-    var sql ='INSERT INTO Ingridients (name, protein, fat, kcal, carbs, unitId, amount) VALUES (?,?,?,?,?,?,?)'
-    var params =[data.name, data.protein, data.fat, data.carbs, data.kcal, data.unitId, data.amount]
+    var sql ='INSERT INTO Ingridients (name, protein, fat, kcal, carbs, unitId) VALUES (?,?,?,?,?,?)'
+    var params =[data.name, data.protein, data.fat, data.carbs, data.kcal, data.unitId]
     db.run(sql, params, function (err, result) {
         if (err){
             res.status(400).json({"error": err})
@@ -63,11 +61,10 @@ app.put("/Ingridients/:id", (req, res, next) => {
         fat : req.body.fat,
         kcal : req.body.kcal,
         carbs : req.body.carbs,
-        unitId : req.body.unitId,
-        amount: req.body.amount
+        unitId : req.body.unitId
     }
-    var sql  = 'UPDATE Ingridients SET name = ?, protein = ?, fat = ?, kcal = ?, carbs = ?, unitId = ?, amount = ? WHERE id = ?';
-    var params =[data.name, data.protein, data.fat, data.kcal, data.carbs, data.unitId, data.amount, data.id]
+    var sql  = 'UPDATE Ingridients SET name = ?, protein = ?, fat = ?, kcal = ?, carbs = ?, unitId = ? WHERE id = ?';
+    var params =[data.name, data.protein, data.fat, data.kcal, data.carbs, data.unitId, data.id]
     db.run(sql, params, function (err, result) {
         if (err){
             res.status(400).json({"error": err})

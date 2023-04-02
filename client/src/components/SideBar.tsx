@@ -11,7 +11,6 @@ export default function SideBar(props) {
             onSelect={selectedKey => alert(`selected ${selectedKey}`)}
         >
             <div className="sidebar-sticky"></div>
-            <h5 className="py-4">Main Menu</h5>
             <Nav.Item>
                 <button onClick={() => setActiveSlice("Ingridients")} className="custom-button-style">Ingridients</button>
             </Nav.Item>

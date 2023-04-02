@@ -13,8 +13,8 @@ import SideBar from './components/SideBar';
 function App() {
   const [ingridientFormMode, setIngridientFormMode] = useState("Create");
   const [recipeFormMode, setRecipeFormMode] = useState("Create");
-  const [ingridientToUpdate, setIngridientDataToUpdate] = useState(null);
-  const [recipeToUpdate, setRecipeDataToUpdate] = useState(null);
+  const [ingridientToUpdate, setIngridientDataToUpdate] = useState({});
+  const [recipeToUpdate, setRecipeDataToUpdate] = useState({});
   const [openIngridientForm, setOpenIngridientForm] = useState(false);
   const [openRecipesForm, setOpenRecipesForm] = useState(false);
   const [activeSlice, setActiveSlice] = useState("");
@@ -44,7 +44,7 @@ function App() {
                 </Col>
                 <Col xs={12} md={6}>
 
-                  {openIngridientForm &&
+                  {openIngridientForm && 
                     <IngridientForm mode={ingridientFormMode} setOpenIngridientForm={setOpenIngridientForm} setIngridientFormMode={setIngridientFormMode} dataToUpdate={ingridientToUpdate} setIngridientDataToUpdate={setIngridientDataToUpdate} />
                   }                </Col>
 
@@ -55,7 +55,7 @@ function App() {
                   <RecipesList setRecipeDataToUpdate={setRecipeDataToUpdate} setRecipeFormMode={setRecipeFormMode} selectRecipe={selectRecipe} setOpenRecipesForm={setOpenRecipesForm} />
                 </Col>
                 <Col xs={12} md={6}>
-                  {openRecipesForm &&
+                  {openRecipesForm && 
                     <RecipeForm mode={recipeFormMode} setOpenRecipesForm={setOpenRecipesForm} setRecipeFormMode={setRecipeFormMode} dataToUpdate={recipeToUpdate} setRecipeDataToUpdate={setRecipeDataToUpdate} />
                   }
                 </Col>

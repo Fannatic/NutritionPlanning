@@ -5,30 +5,31 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { useAddIngridientMutation, useUpdateIngridientMutation } from '../app/ingridientsApi';
-
+import { Ingridient } from "../interfaces";
+import { handleError } from '../helpers/errorHandler';
 
 interface IngridientFormProps {
-    mode?: string,
-    callback?: void,
-    dataToUpdate?: any;
-    setIngridientFormMode: any;
-    setIngridientDataToUpdate: any;
-    setOpenIngridientForm: any;
+    mode?: string;
+    callback?: void;
+    dataToUpdate: Partial<Ingridient>;
+    setIngridientFormMode: (string) => void;
+    setIngridientDataToUpdate: (Ingridient) => void;
+    setOpenIngridientForm: (boolean) => void;
 }
 
 function IngridientForm(props: IngridientFormProps) {
     const [validated, setValidated] = useState(false);
-    const [editedData, setEditedData] = useState<any>(undefined);
-    const [fadeOut, setFadeOut] = useState<any>(false);
+    const [editedData, setEditedData] = useState<Partial<Ingridient>>({});
+    const [fadeOut, setFadeOut] = useState<boolean>(false);
 
-    const { mode, dataToUpdate, setIngridientFormMode, setIngridientDataToUpdate, setOpenIngridientForm } = props;
+    const { mode, dataToUpdate, setOpenIngridientForm } = props;
 
-    const [addIngridient, { error: postError }] = useAddIngridientMutation();
-    const [updateIngridient, { error: patchError }] = useUpdateIngridientMutation();
+    const [addIngridient, { error: addIngridientError }] = useAddIngridientMutation();
+    const [updateIngridient, { error: updateIngridientError }] = useUpdateIngridientMutation();
 
     useEffect(() => {
         setEditedData(dataToUpdate);
-      },[dataToUpdate]);
+    }, [dataToUpdate]);
 
     const handleSubmit = (event: any) => {
         const form = event.currentTarget;
@@ -51,14 +52,17 @@ function IngridientForm(props: IngridientFormProps) {
     const handleRequest = () => {
         setFadeOut(true);
         mode == "Update" ?
-        updateIngridient(editedData) : addIngridient(editedData)
+            updateIngridient(editedData) : addIngridient(editedData)
         setOpenIngridientForm(false);
     }
 
 
     return (
         <div className={!fadeOut ? "fadeIn" : ""}>
-            <h3>Ingrident Form</h3> 
+            <h3>Ingrident Form</h3>
+            {(addIngridientError || updateIngridientError) &&
+                handleError(addIngridientError || updateIngridientError)
+            }
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Row className="mb-3">
                     <Form.Group as={Col} md="4" controlId="validationCustom01">
@@ -142,17 +146,7 @@ function IngridientForm(props: IngridientFormProps) {
                             Please set a value.
                         </Form.Control.Feedback>
                     </Form.Group>
-                    <Form.Group as={Col} md="4" controlId="validationCustom06">
-                        <Form.Label>Amount</Form.Label>
-                        <Form.Control type="text" placeholder="Amount" required
-                            value={editedData && editedData.amount || ''}
-                            onChange={handleDataChange}
-                            name="amount"
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            Please set a value.
-                        </Form.Control.Feedback>
-                    </Form.Group>
+
                 </Row>
                 <Button disabled={validated} onClick={handleRequest}>
                     {
@@ -165,7 +159,7 @@ function IngridientForm(props: IngridientFormProps) {
                     Close
                 </Button>
 
-                
+
             </Form>
         </div>
     );

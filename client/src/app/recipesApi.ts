@@ -1,19 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-// interface Recipe {
-//     name: string;
-//     kcal: number;
-//     carbs: number;
-//     fat: number;
-//     proteins: number;
-//     steps: number;
-//   }
-
-//   interface IngridientInRecipeXref {
-//     id: number;
-//     recipeId: number;
-//     ingridientId: number;
-//   }
+import { Recipe, IngridientInRecipeXref } from "../interfaces";
 
 export const recipesApi = createApi({
     reducerPath: "recipesApi",
@@ -22,15 +8,15 @@ export const recipesApi = createApi({
     }),
     tagTypes: ["Recipes"],
     endpoints: (builder) => ({
-    getAllRecipes: builder.query<any,void>({
+    getAllRecipes: builder.query<Recipe[],void>({
       query: () => `/Recipes`,
       providesTags: ["Recipes"],
     }),
-    getXrefsForRecipes: builder.query<any,void>({
+    getXrefsForRecipes: builder.query<IngridientInRecipeXref[],void>({
       query: () => `/Recipes/Ingridients`,
       providesTags: ["Recipes"],
     }),
-      addRecipe: builder.mutation({
+      addRecipe: builder.mutation<void, Partial<Recipe>>({
         query: (payload) => ({
           url: `/Recipes`,
           method: "POST",
@@ -41,7 +27,7 @@ export const recipesApi = createApi({
         }),
         invalidatesTags: ["Recipes"],
       }),
-      updateRecipe: builder.mutation({
+      updateRecipe: builder.mutation<void, Partial<Recipe>>({
         query: (payload ) => ({
           url: `/Recipes`,
           method: "PUT",
@@ -64,7 +50,7 @@ export const recipesApi = createApi({
         }),
         invalidatesTags: ["Recipes"],
       }),
-      addXref: builder.mutation({
+      addXref: builder.mutation<void, Partial<IngridientInRecipeXref>>({
         query: (payload) => ({
           url: `/Recipes/Ingridients`,
           method: "POST",
@@ -75,7 +61,7 @@ export const recipesApi = createApi({
         }),
         invalidatesTags: ["Recipes"],
       }),
-      deleteRecipe: builder.mutation({
+      deleteRecipe: builder.mutation<void, string>({
         query: (id) => ({
           url: `/Recipes/${id}`,  
           method: "DELETE",
@@ -85,7 +71,7 @@ export const recipesApi = createApi({
         }),
         invalidatesTags: ["Recipes"],
       }),
-      deleteXref: builder.mutation({
+      deleteXref: builder.mutation<void, string>({
         query: (id) => ({
           url: `/Recipes/Ingridients/${id}`,
           method: "DELETE",

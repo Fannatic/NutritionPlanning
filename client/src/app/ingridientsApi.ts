@@ -1,14 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-interface Ingridient {
-  id: number;
-  name: string;
-  kcal: number;
-  carbs: number;
-  fat: number;
-  protein: number;
-  unitId: number;
-}
+import { Ingridient } from "../interfaces";
 
 export const ingridientsApi = createApi({
   reducerPath: "ingridientsApi",
@@ -18,11 +9,11 @@ export const ingridientsApi = createApi({
 
   tagTypes: ["Ingridients"],
   endpoints: (builder) => ({
-    getAllIngridients: builder.query<any,void>({
+    getAllIngridients: builder.query<Ingridient[],void>({
       query: () => `/Ingridients`,
       providesTags: ["Ingridients"],
     }),
-    addIngridient: builder.mutation({
+    addIngridient: builder.mutation<void, Partial<Ingridient>>({
       query: (payload) => ({
         url: `/Ingridients`,
         method: "POST",
@@ -33,7 +24,7 @@ export const ingridientsApi = createApi({
       }),
       invalidatesTags: ["Ingridients"],
     }),
-    updateIngridient: builder.mutation({
+    updateIngridient: builder.mutation<void, Partial<Ingridient>>({
       query: (payload ) => ({
         url: `/Ingridients/${payload.id}`,
         method: "PUT",
@@ -56,7 +47,7 @@ export const ingridientsApi = createApi({
       }),
       invalidatesTags: ["Ingridients"],
     }),
-    deleteIngridient: builder.mutation({
+    deleteIngridient: builder.mutation<void, string>({
       query: (id) => ({
         url: `/Ingridients/${id}`,
         method: "DELETE",
