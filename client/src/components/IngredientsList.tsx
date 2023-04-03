@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { FaWrench, FaTrash, FaPlus } from "react-icons/fa";
 import Button from 'react-bootstrap/Button';
-import { useGetAllIngridientsQuery, useDeleteIngridientMutation } from "../app/ingridientsApi";
-import { Ingridient } from "../interfaces";
+import { useGetAllIngredientsQuery, useDeleteIngredientMutation } from "../app/IngredientsApi";
+import { Ingredient } from "../interfaces";
 import Spinner from 'react-bootstrap/Spinner';
 import { handleError } from '../helpers/errorHandler';
 import Modal from 'react-bootstrap/Modal';
@@ -18,8 +18,8 @@ interface IngridientsListProps {
 
 function IngridientsList(props: IngridientsListProps) {
 
-    const { data: ingridients, error: getIngridientsError, isLoading } = useGetAllIngridientsQuery();
-    const [deleteIngidient, { error: deleteIngidientError }] = useDeleteIngridientMutation();
+    const { data: ingridients, error: getIngridientsError, isLoading } = useGetAllIngredientsQuery();
+    const [deleteIngidient, { error: deleteIngidientError }] = useDeleteIngredientMutation();
     const { mode, selectIngridient, setOpenIngridientForm, setIngridientFormMode, setIngridientDataToUpdate } = props;
     const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
     const [idToDelete, setIdToDelete] = useState<string>(``);
@@ -69,7 +69,7 @@ function IngridientsList(props: IngridientsListProps) {
 
                         <ListGroup style={{ maxHeight: "350px", overflowY: "scroll" }} variant="flush">
                             {(ingridients && ingridients.length) ?
-                                ingridients.map((x: Ingridient) =>
+                                ingridients.map((x: Ingredient) =>
                                     <ListGroup.Item key={x.id}><span style={{ fontSize: "24px" }}>{x.name}</span>
                                         <div style={{ display: "inline", float: "right" }}>
                                             <Button variant="outline-dark" onClick={() => { selectIngridient(x); setOpenIngridientForm(true); }}>

@@ -1,14 +1,14 @@
 import Modal from 'react-bootstrap/Modal';
-import { useGetAllIngridientsQuery } from "../app/ingridientsApi";
+import { useGetAllIngredientsQuery } from "../app/IngredientsApi";
 import { useGetXrefsForRecipesQuery } from "../app/recipesApi";
-import { Ingridient } from "../interfaces";
+import { Ingredient } from "../interfaces";
 import ListGroup from 'react-bootstrap/ListGroup';
 import { FaPlus } from "react-icons/fa";
 import Button from 'react-bootstrap/Button';
 
 function IngridientsModal(props) {
 
-  const { data: ingridients, error: getError, isLoading } = useGetAllIngridientsQuery();
+  const { data: ingridients, error: getError, isLoading } = useGetAllIngredientsQuery();
   const { data: xrefs, error: getErrorXrefs, isLoading: isLoadingXrefs } = useGetXrefsForRecipesQuery();
 
   const { addIngridient, id: RecipeId, show, close } = props;
@@ -32,7 +32,7 @@ function IngridientsModal(props) {
             {!isLoading && ingridients && xrefs &&
               ingridients.filter((i) =>
                 !xrefs.filter(x => x.recipeId == RecipeId).find(y => y.ingridientId == i.id)
-              ).map((x: Ingridient) =>
+              ).map((x: Ingredient) =>
                 <ListGroup.Item key={x.id}><span style={{ fontSize: "24px" }}>{x.name}</span> <span>{x.id}</span>
                   <div style={{ display: "inline", float: "right" }}>
                     <Button onClick={() => addIngridient(RecipeId, x.id)} variant="outline-dark">

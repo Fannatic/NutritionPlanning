@@ -1,32 +1,32 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { Ingridient } from "../interfaces";
+import { Ingredient } from "../interfaces";
 
-export const ingridientsApi = createApi({
-  reducerPath: "ingridientsApi",
+export const ingredientApi = createApi({
+  reducerPath: "ingredientApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:8000/",
   }),
 
-  tagTypes: ["Ingridients"],
+  tagTypes: ["Ingredients"],
   endpoints: (builder) => ({
-    getAllIngridients: builder.query<Ingridient[],void>({
-      query: () => `/Ingridients`,
-      providesTags: ["Ingridients"],
+    getAllIngredients: builder.query<Ingredient[],void>({
+      query: () => `/Ingredients`,
+      providesTags: ["Ingredients"],
     }),
-    addIngridient: builder.mutation<void, Partial<Ingridient>>({
+    addIngredient: builder.mutation<void, Partial<Ingredient>>({
       query: (payload) => ({
-        url: `/Ingridients`,
+        url: `/Ingredients`,
         method: "POST",
         body: payload,
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
       }),
-      invalidatesTags: ["Ingridients"],
+      invalidatesTags: ["Ingredients"],
     }),
-    updateIngridient: builder.mutation<void, Partial<Ingridient>>({
+    updateIngredient: builder.mutation<void, Partial<Ingredient>>({
       query: (payload ) => ({
-        url: `/Ingridients/${payload.id}`,
+        url: `/Ingredients/${payload.id}`,
         method: "PUT",
         body: payload,
         headers: {
@@ -34,7 +34,7 @@ export const ingridientsApi = createApi({
         },
         async onQueryStarted({ id, ...patch }, { dispatch, queryFulfilled }) {
           const patchResult = dispatch(
-            ingridientsApi.util.updateQueryData('getAllIngridients', id, (draft) => {
+            ingredientApi.util.updateQueryData('getAllIngredients', id, (draft) => {
               Object.assign(draft, patch)
             })
           )
@@ -45,9 +45,9 @@ export const ingridientsApi = createApi({
           }
         },
       }),
-      invalidatesTags: ["Ingridients"],
+      invalidatesTags: ["Ingredients"],
     }),
-    deleteIngridient: builder.mutation<void, string>({
+    deleteIngredient: builder.mutation<void, string>({
       query: (id) => ({
         url: `/Ingridients/${id}`,
         method: "DELETE",
@@ -55,12 +55,12 @@ export const ingridientsApi = createApi({
           "Content-type": "application/json; charset=UTF-8",
         },
       }),
-      invalidatesTags: ["Ingridients"],
+      invalidatesTags: ["Ingredients"],
     })
   }),
 });
 
-export const { useAddIngridientMutation, useGetAllIngridientsQuery, useDeleteIngridientMutation, useUpdateIngridientMutation } = ingridientsApi;
+export const { useAddIngredientMutation, useDeleteIngredientMutation, useGetAllIngredientsQuery, useUpdateIngredientMutation } = ingredientApi;
 
 
 

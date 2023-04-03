@@ -4,14 +4,14 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { useAddIngridientMutation, useUpdateIngridientMutation } from '../app/ingridientsApi';
-import { Ingridient } from "../interfaces";
+import { useAddIngredientMutation, useUpdateIngredientMutation } from '../app/IngredientsApi';
+import { Ingredient } from "../interfaces";
 import { handleError } from '../helpers/errorHandler';
 
 interface IngridientFormProps {
     mode?: string;
     callback?: void;
-    dataToUpdate: Partial<Ingridient>;
+    dataToUpdate: Partial<Ingredient>;
     setIngridientFormMode: (string) => void;
     setIngridientDataToUpdate: (Ingridient) => void;
     setOpenIngridientForm: (boolean) => void;
@@ -19,13 +19,13 @@ interface IngridientFormProps {
 
 function IngridientForm(props: IngridientFormProps) {
     const [validated, setValidated] = useState(false);
-    const [editedData, setEditedData] = useState<Partial<Ingridient>>({});
+    const [editedData, setEditedData] = useState<Partial<Ingredient>>({});
     const [fadeOut, setFadeOut] = useState<boolean>(false);
 
     const { mode, dataToUpdate, setOpenIngridientForm } = props;
 
-    const [addIngridient, { error: addIngridientError }] = useAddIngridientMutation();
-    const [updateIngridient, { error: updateIngridientError }] = useUpdateIngridientMutation();
+    const [addIngridient, { error: addIngridientError }] = useAddIngredientMutation();
+    const [updateIngridient, { error: updateIngridientError }] = useUpdateIngredientMutation();
 
     useEffect(() => {
         setEditedData(dataToUpdate);

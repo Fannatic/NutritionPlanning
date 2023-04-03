@@ -1,8 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { ingridientsApi } from "../app/ingridientsApi";
+import { ingridientsApi } from "../app/IngredientsApi";
 import { recipesApi } from "../app/recipesApi";
 import { unitsApi } from "../app/unitsApi";
-
 export const store = configureStore({
   reducer: {
     // Add the generated reducer as a specific top-level slice
@@ -14,5 +13,5 @@ export const store = configureStore({
   // Adding the api middleware enables caching, invalidation, polling,
   // and other useful features of `rtk-query`.
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(ingridientsApi.middleware).concat(recipesApi.middleware).concat(unitsApi.middleware),
+    getDefaultMiddleware().concat(ingridientsApi.middleware).concat(recipesApi.middleware).concat(unitsApi.middleware)
 });

@@ -1,4 +1,4 @@
-export interface Ingridient {
+export interface Ingredient {
     id: number;
     name: string;
     kcal: number;
@@ -18,8 +18,8 @@ export interface Recipe {
     steps: string;
 }
 
-export interface IngridientInRecipeXref {
+export interface IngredientInRecipeXref {
     id: number;
     recipeId: number;
-    ingridientId: number;
+    ingredientId: number;
 }

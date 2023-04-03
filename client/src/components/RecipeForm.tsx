@@ -6,9 +6,9 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { FaPlus, FaTrash } from "react-icons/fa";
 import { useGetXrefsForRecipesQuery, useDeleteXrefMutation, useAddXrefMutation, useUpdateRecipeMutation, useAddRecipeMutation } from "../app/recipesApi";
-import { useGetAllIngridientsQuery } from "../app/ingridientsApi";
+import { useGetAllIngredientsQuery } from "../app/IngredientsApi";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import IngridientsModal from './IngridientsModal';
+import IngridientsModal from './IngredientsModal';
 import RecipeNutritionInfo from './RecipeNutritionInfo';
 import { Recipe } from "../interfaces";
 import { handleError } from '../helpers/errorHandler';
@@ -32,7 +32,7 @@ function RecipeForm(props: RecipeFormProps) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const { data: ingridients, error: getIngridientsError, isLoading: isLoadingIngridients } = useGetAllIngridientsQuery();
+  const { data: ingridients, error: getIngridientsError, isLoading: isLoadingIngridients } = useGetAllIngredientsQuery();
 
   const { data: xrefs, error: getXrefsError, isLoading } = useGetXrefsForRecipesQuery();
 

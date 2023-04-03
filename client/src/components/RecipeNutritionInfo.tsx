@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Badge from 'react-bootstrap/Badge';
-import { Recipe, IngridientInRecipeXref, Ingridient } from "../interfaces";
+import { Recipe, Ingredient, IngredientInRecipeXref } from "../interfaces";
 
 interface RecipeNutritionInfoProps {
     editedRecipe: Recipe;
-    xrefs: IngridientInRecipeXref[];
-    ingridients: Ingridient[];
+    xrefs: IngredientInRecipeXref[];
+    ingridients: Ingredient[];
 }
 
 function RecipeNutritionInfo(props: RecipeNutritionInfoProps) {
@@ -13,7 +13,7 @@ function RecipeNutritionInfo(props: RecipeNutritionInfoProps) {
     const { editedRecipe, xrefs, ingridients } = props;
 
     const calculateTotalValue = (name) => {
-        return xrefs.filter(x => x.recipeId == editedRecipe.id).map(y => ingridients.find(({ id }) => id == y.ingridientId)).map(z => z![name]).reduce((accumulator, current) => accumulator + current, 0)
+        return xrefs.filter(x => x.recipeId == editedRecipe.id).map(y => ingridients.find(({ id }) => id == y.ingredientId)).map(z => z![name]).reduce((accumulator, current) => accumulator + current, 0)
     }
 
     return (

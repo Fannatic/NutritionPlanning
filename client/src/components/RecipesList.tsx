@@ -3,7 +3,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import { FaWrench, FaTrash, FaPlus } from "react-icons/fa";
 import Button from 'react-bootstrap/Button';
 import { useGetAllRecipesQuery, useGetXrefsForRecipesQuery, useDeleteRecipeMutation } from "../app/recipesApi";
-import { useGetAllIngridientsQuery } from "../app/ingridientsApi";
+import { useGetAllIngredientsQuery } from "../app/IngredientsApi";
 import RecipeNutritionInfo from './RecipeNutritionInfo';
 import { Recipe } from "../interfaces";
 import Spinner from 'react-bootstrap/Spinner';
@@ -20,7 +20,7 @@ interface RecipesListProps {
 function RecipesList(props: RecipesListProps) {
 
   const { data: recipes, error: getRecipesError, isLoading } = useGetAllRecipesQuery();
-  const { data: ingridients, error: getIngridientsError, isLoading: isLoadingIngridients } = useGetAllIngridientsQuery();
+  const { data: ingridients, error: getIngridientsError, isLoading: isLoadingIngridients } = useGetAllIngredientsQuery();
   const { data: xrefs, error: getXrefsError, isLoading: isLoadingXrefs } = useGetXrefsForRecipesQuery();
   const [deleteRecipe, { error: deleteRecipeError }] = useDeleteRecipeMutation();
   const { selectRecipe, setOpenRecipesForm, setRecipeFormMode, setRecipeDataToUpdate } = props;
