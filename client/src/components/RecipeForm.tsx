@@ -8,7 +8,7 @@ import { FaPlus, FaTrash } from "react-icons/fa";
 import { useGetXrefsForRecipesQuery, useDeleteXrefMutation, useAddXrefMutation, useUpdateRecipeMutation, useAddRecipeMutation } from "../app/recipesApi";
 import { useGetAllIngredientsQuery } from "../app/IngredientsApi";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import IngridientsModal from './IngredientsModal';
+import IngredientsModal from './IngredientsModal';
 import RecipeNutritionInfo from './RecipeNutritionInfo';
 import { Recipe } from "../interfaces";
 import { handleError } from '../helpers/errorHandler';
@@ -32,7 +32,7 @@ function RecipeForm(props: RecipeFormProps) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const { data: ingridients, error: getIngridientsError, isLoading: isLoadingIngridients } = useGetAllIngredientsQuery();
+  const { data: ingredients, error: getIngredientsError, isLoading: isLoadingIngredients } = useGetAllIngredientsQuery();
 
   const { data: xrefs, error: getXrefsError, isLoading } = useGetXrefsForRecipesQuery();
 
@@ -82,19 +82,19 @@ function RecipeForm(props: RecipeFormProps) {
     setOpenRecipesForm(false);
   }
 
-  const addIngridient = (rId, iId) => {
-    addXref({ recipeId: rId, ingridientId: iId });
+  const addIngredient = (rId, iId) => {
+    addXref({ recipeId: rId, ingredientId: iId });
     recalculatedNutritionData();
   }
 
   const recalculatedNutritionData = () => {
-    const proteins = ingridients && xrefs && xrefs.filter(x => x.recipeId == editedData.id).map(y => ingridients.find(({ id }) => id == y.ingridientId)).map(z => z!.protein).reduce((accumulator, current) => accumulator + current, 0)
-    const fats = ingridients && xrefs && xrefs.filter(x => x.recipeId == editedData.id).map(y => ingridients.find(({ id }) => id == y.ingridientId)).map(z => z!.fat).reduce((accumulator, current) => accumulator + current, 0)
-    const carbs = ingridients && xrefs && xrefs.filter(x => x.recipeId == editedData.id).map(y => ingridients.find(({ id }) => id == y.ingridientId)).map(z => z!.carbs).reduce((accumulator, current) => accumulator + current, 0)
-    const kcal = ingridients && xrefs && xrefs.filter(x => x.recipeId == editedData.id).map(y => ingridients.find(({ id }) => id == y.ingridientId)).map(z => z!.kcal).reduce((accumulator, current) => accumulator + current, 0)
+    const proteins = ingredients && xrefs && xrefs.filter(x => x.recipeId == editedData.id).map(y => ingredients.find(({ id }) => id == y.ingredientId)).map(z => z!.protein).reduce((accumulator, current) => accumulator + current, 0)
+    const fat = ingredients && xrefs && xrefs.filter(x => x.recipeId == editedData.id).map(y => ingredients.find(({ id }) => id == y.ingredientId)).map(z => z!.fat).reduce((accumulator, current) => accumulator + current, 0)
+    const carbs = ingredients && xrefs && xrefs.filter(x => x.recipeId == editedData.id).map(y => ingredients.find(({ id }) => id == y.ingredientId)).map(z => z!.carbs).reduce((accumulator, current) => accumulator + current, 0)
+    const kcal = ingredients && xrefs && xrefs.filter(x => x.recipeId == editedData.id).map(y => ingredients.find(({ id }) => id == y.ingredientId)).map(z => z!.kcal).reduce((accumulator, current) => accumulator + current, 0)
     const calculatedNutritions = {
       proteins,
-      fats,
+      fat,
       carbs,
       kcal
     }
@@ -108,8 +108,8 @@ function RecipeForm(props: RecipeFormProps) {
   return (
     <div className={!fadeOut ? "fadeIn" : ""}>
       <h3>Recipe Form</h3>
-      {getIngridientsError || getXrefsError || addXrefError || deleteXrefError || updateRecipeError || addRecipeError &&
-        handleError(getIngridientsError || getXrefsError || addXrefError || deleteXrefError || updateRecipeError || addRecipeError)
+      {getIngredientsError || getXrefsError || addXrefError || deleteXrefError || updateRecipeError || addRecipeError &&
+        handleError(getIngredientsError || getXrefsError || addXrefError || deleteXrefError || updateRecipeError || addRecipeError)
       }
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Row className="mb-3">
@@ -138,7 +138,7 @@ function RecipeForm(props: RecipeFormProps) {
             <ListGroup>
               {!isLoading && editedData && xrefs &&
                 xrefs.filter(x => x.recipeId == editedData.id).map(x =>
-                  <ListGroup.Item key={x.id}>{ingridients && ingridients.length && ingridients.find(i => i.id == x.ingridientId)!.name}{' '}
+                  <ListGroup.Item key={x.id}>{ingredients && ingredients.length && ingredients.find(i => i.id == x.ingredientId)!.name}{' '}
                     <Button variant="outline-dark" onClick={() => {
                       deleteXref(x.id.toString());
                       recalculatedNutritionData();
@@ -156,8 +156,8 @@ function RecipeForm(props: RecipeFormProps) {
               rows={4} value={editedData && editedData.steps || ''} />
           </Form.Group>
         </Row>
-        {editedData && ingridients && xrefs && xrefs.filter(x => x.recipeId == editedData.id) &&
-          <RecipeNutritionInfo editedRecipe={editedData} xrefs={xrefs} ingridients={ingridients} />
+        {editedData && ingredients && xrefs && xrefs.filter(x => x.recipeId == editedData.id) &&
+          <RecipeNutritionInfo editedRecipe={editedData} xrefs={xrefs} ingredients={ingredients} />
         }
         <Button
           onClick={
@@ -174,7 +174,7 @@ function RecipeForm(props: RecipeFormProps) {
         </Button>{' '}
       </Form>
       {editedData &&
-        <IngridientsModal show={show} close={handleClose} id={editedData.id} addIngridient={addIngridient} />
+        <IngredientsModal show={show} close={handleClose} id={editedData.id} addIngredient={addIngredient} />
       }
     </div>
   );

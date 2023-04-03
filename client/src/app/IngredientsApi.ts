@@ -49,7 +49,7 @@ export const ingredientApi = createApi({
     }),
     deleteIngredient: builder.mutation<void, string>({
       query: (id) => ({
-        url: `/Ingridients/${id}`,
+        url: `/Ingredients/${id}`,
         method: "DELETE",
         headers: {
           "Content-type": "application/json; charset=UTF-8",

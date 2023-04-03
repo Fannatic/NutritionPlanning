@@ -20,7 +20,7 @@ interface RecipesListProps {
 function RecipesList(props: RecipesListProps) {
 
   const { data: recipes, error: getRecipesError, isLoading } = useGetAllRecipesQuery();
-  const { data: ingridients, error: getIngridientsError, isLoading: isLoadingIngridients } = useGetAllIngredientsQuery();
+  const { data: ingredients, error: getIngredientsError, isLoading: isLoadingIngredients } = useGetAllIngredientsQuery();
   const { data: xrefs, error: getXrefsError, isLoading: isLoadingXrefs } = useGetXrefsForRecipesQuery();
   const [deleteRecipe, { error: deleteRecipeError }] = useDeleteRecipeMutation();
   const { selectRecipe, setOpenRecipesForm, setRecipeFormMode, setRecipeDataToUpdate } = props;
@@ -34,9 +34,9 @@ function RecipesList(props: RecipesListProps) {
             <span className="visually-hidden">Loading...</span>
           </Spinner>
         }
-        {getRecipesError || getIngridientsError || getXrefsError || deleteRecipeError ?
-          handleError(getRecipesError || getIngridientsError || getXrefsError || deleteRecipeError) :
-          (!isLoading && recipes && xrefs && ingridients && recipes.length) ?
+        {getRecipesError || getIngredientsError || getXrefsError || deleteRecipeError ?
+          handleError(getRecipesError || getIngredientsError || getXrefsError || deleteRecipeError) :
+          (!isLoading && recipes && xrefs && ingredients && recipes.length) ?
             recipes.map((r: Recipe) =>
               <ListGroup.Item key={r.id}>
                 <span style={{ fontSize: "24px" }}>{r.name}</span>
@@ -45,7 +45,7 @@ function RecipesList(props: RecipesListProps) {
                   <Button variant="outline-dark" onClick={() => deleteRecipe(r.id!.toString())}><FaTrash /></Button>{' '}
                 </div>
                 <div className="mb-2">
-                  <RecipeNutritionInfo editedRecipe={r} xrefs={xrefs} ingridients={ingridients} />
+                  <RecipeNutritionInfo editedRecipe={r} xrefs={xrefs} ingredients={ingredients} />
                 </div>
               </ListGroup.Item>
             ) :

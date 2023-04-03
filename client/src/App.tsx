@@ -4,9 +4,9 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import PlanComponent from './components/PlanComponent';
-import IngridientForm from './components/IngridientForm';
+import IngridientForm from './components/IngredientForm';
 import RecipeForm from './components/RecipeForm';
-import IngridientsList from './components/IngridientsList';
+import IngredientsList from './components/IngredientsList';
 import RecipesList from './components/RecipesList';
 import SideBar from './components/SideBar';
 
@@ -37,15 +37,15 @@ function App() {
         </Col>
         <Col xs={12} md={10} id="content">
           <Row>
-            {activeSlice == "Ingridients" ?
+            {activeSlice == "Ingredients" ?
               <>
                 <Col xs={12} md={6}>
-                  <IngridientsList setIngridientDataToUpdate={setIngridientDataToUpdate} setOpenIngridientForm={setOpenIngridientForm} setIngridientFormMode={setIngridientFormMode} selectIngridient={selectIngridient} />
+                  <IngredientsList setIngredientDataToUpdate={setIngridientDataToUpdate} setOpenIngredientForm={setOpenIngridientForm} setIngredientFormMode={setIngridientFormMode} selectIngredient={selectIngridient} />
                 </Col>
                 <Col xs={12} md={6}>
 
                   {openIngridientForm && 
-                    <IngridientForm mode={ingridientFormMode} setOpenIngridientForm={setOpenIngridientForm} setIngridientFormMode={setIngridientFormMode} dataToUpdate={ingridientToUpdate} setIngridientDataToUpdate={setIngridientDataToUpdate} />
+                    <IngridientForm mode={ingridientFormMode} setOpenIngredientForm={setOpenIngridientForm} setIngredientFormMode={setIngridientFormMode} dataToUpdate={ingridientToUpdate} setIngredientDataToUpdate={setIngridientDataToUpdate} />
                   }                </Col>
 
               </>

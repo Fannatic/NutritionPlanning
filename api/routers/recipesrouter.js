@@ -76,7 +76,7 @@ app.delete("/Recipes/:id", (req, res, next) => {
                 res.end("Transaction cancelled");
             }
             else {
-                db.run(`delete from IngridientsInRecipesXrefs where recipeId = ${param}`, function (err, row) {
+                db.run(`delete from IngredientsInRecipesXrefs where recipeId = ${param}`, function (err, row) {
                     if (err) {
                         console.log(err);
                         db.rollback;
@@ -95,8 +95,8 @@ app.delete("/Recipes/:id", (req, res, next) => {
 
 })
 
-app.get("/Recipes/Ingridients", (req, res, next) => {
-    var sql = "select * from IngridientsInRecipesXrefs"
+app.get("/Recipes/Ingredients", (req, res, next) => {
+    var sql = "select * from IngredientsInRecipesXrefs"
     var params = []
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -109,13 +109,13 @@ app.get("/Recipes/Ingridients", (req, res, next) => {
     });
 });
 
-app.post("/Recipes/Ingridients", (req, res, next) => {
+app.post("/Recipes/Ingredients", (req, res, next) => {
     var data = {
         recipeId: req.body.recipeId,
-        ingridientId: req.body.ingridientId
+        ingredientId: req.body.ingredientId
     }
-    var sql = 'INSERT INTO IngridientsInRecipesXrefs (recipeId, ingridientId) VALUES (?,?)'
-    var params = [data.recipeId, data.ingridientId]
+    var sql = 'INSERT INTO IngredientsInRecipesXrefs (recipeId, ingredientId) VALUES (?,?)'
+    var params = [data.recipeId, data.ingredientId]
     db.run(sql, params, function (err, result) {
         if (err) {
             res.status(400).json({ "error": err })
@@ -128,8 +128,8 @@ app.post("/Recipes/Ingridients", (req, res, next) => {
     });
 })
 
-app.get("/IngridientsInRecipes/:recipeId", (req, res, next) => {
-    var sql = "select * from IngridientsInRecipesXrefs where recipeId = ?"
+app.get("/IngredientsInRecipes/:recipeId", (req, res, next) => {
+    var sql = "select * from IngredientsInRecipesXrefs where recipeId = ?"
     var params = [req.params.recipeId]
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -142,8 +142,8 @@ app.get("/IngridientsInRecipes/:recipeId", (req, res, next) => {
     });
 });
 
-app.delete("/Recipes/Ingridients/:id", (req, res, next) => {
-    var sql = "delete from IngridientsInRecipesXrefs where id = ?"
+app.delete("/Recipes/Ingredients/:id", (req, res, next) => {
+    var sql = "delete from IngredientsInRecipesXrefs where id = ?"
     var params = [req.params.id]
     db.run(sql, params, function (err, result) {
         if (err) {
@@ -151,8 +151,7 @@ app.delete("/Recipes/Ingridients/:id", (req, res, next) => {
             return;
         }
         res.json({
-            "message": "success",
-            "data": "Status OK",
+            "message": "success"
         })
     });
 })

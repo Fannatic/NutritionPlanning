@@ -6,12 +6,12 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import { FaPlus } from "react-icons/fa";
 import Button from 'react-bootstrap/Button';
 
-function IngridientsModal(props) {
+function IngredientsModal(props) {
 
-  const { data: ingridients, error: getError, isLoading } = useGetAllIngredientsQuery();
+  const { data: ingredients, error: getError, isLoading } = useGetAllIngredientsQuery();
   const { data: xrefs, error: getErrorXrefs, isLoading: isLoadingXrefs } = useGetXrefsForRecipesQuery();
 
-  const { addIngridient, id: RecipeId, show, close } = props;
+  const { addIngredient, id: RecipeId, show, close } = props;
 
   return (
     <div
@@ -25,17 +25,17 @@ function IngridientsModal(props) {
         keyboard={true}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Add ingridients to recipe</Modal.Title>
+          <Modal.Title>Add ingredients to recipe</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <ListGroup style={{ maxHeight: "350px", overflowY: "scroll" }} variant="flush">
-            {!isLoading && ingridients && xrefs &&
-              ingridients.filter((i) =>
-                !xrefs.filter(x => x.recipeId == RecipeId).find(y => y.ingridientId == i.id)
+            {!isLoading && ingredients && xrefs &&
+              ingredients.filter((i) =>
+                !xrefs.filter(x => x.recipeId == RecipeId).find(y => y.ingredientId == i.id)
               ).map((x: Ingredient) =>
                 <ListGroup.Item key={x.id}><span style={{ fontSize: "24px" }}>{x.name}</span> <span>{x.id}</span>
                   <div style={{ display: "inline", float: "right" }}>
-                    <Button onClick={() => addIngridient(RecipeId, x.id)} variant="outline-dark">
+                    <Button onClick={() => addIngredient(RecipeId, x.id)} variant="outline-dark">
                       <FaPlus />
                     </Button>{' '}
                   </div>
@@ -52,4 +52,4 @@ function IngridientsModal(props) {
   );
 }
 
-export default IngridientsModal;
+export default IngredientsModal;

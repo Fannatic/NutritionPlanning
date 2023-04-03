@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { Recipe, IngridientInRecipeXref } from "../interfaces";
+import { Recipe, IngredientInRecipeXref } from "../interfaces";
 
 export const recipesApi = createApi({
     reducerPath: "recipesApi",
@@ -12,8 +12,8 @@ export const recipesApi = createApi({
       query: () => `/Recipes`,
       providesTags: ["Recipes"],
     }),
-    getXrefsForRecipes: builder.query<IngridientInRecipeXref[],void>({
-      query: () => `/Recipes/Ingridients`,
+    getXrefsForRecipes: builder.query<IngredientInRecipeXref[],void>({
+      query: () => `/Recipes/Ingredients`,
       providesTags: ["Recipes"],
     }),
       addRecipe: builder.mutation<void, Partial<Recipe>>({
@@ -50,9 +50,9 @@ export const recipesApi = createApi({
         }),
         invalidatesTags: ["Recipes"],
       }),
-      addXref: builder.mutation<void, Partial<IngridientInRecipeXref>>({
+      addXref: builder.mutation<void, Partial<IngredientInRecipeXref>>({
         query: (payload) => ({
-          url: `/Recipes/Ingridients`,
+          url: `/Recipes/Ingredients`,
           method: "POST",
           body: payload,
           headers: {
@@ -73,7 +73,7 @@ export const recipesApi = createApi({
       }),
       deleteXref: builder.mutation<void, string>({
         query: (id) => ({
-          url: `/Recipes/Ingridients/${id}`,
+          url: `/Recipes/Ingredients/${id}`,
           method: "DELETE",
           headers: {
             "Content-type": "application/json; charset=UTF-8",

@@ -13,7 +13,7 @@ export interface Recipe {
     name: string;
     kcal: number;
     carbs: number;
-    fat: number;
+    fats: number;
     proteins: number;
     steps: string;
 }

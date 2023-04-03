@@ -12,7 +12,7 @@ export default function SideBar(props) {
         >
             <div className="sidebar-sticky"></div>
             <Nav.Item>
-                <button onClick={() => setActiveSlice("Ingridients")} className="custom-button-style">Ingridients</button>
+                <button onClick={() => setActiveSlice("Ingredients")} className="custom-button-style">Ingredients</button>
             </Nav.Item>
             <Nav.Item>
                 <button onClick={() => setActiveSlice("Recipes")} className="custom-button-style">Recipes</button>

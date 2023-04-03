@@ -5,42 +5,47 @@ import { Recipe, Ingredient, IngredientInRecipeXref } from "../interfaces";
 interface RecipeNutritionInfoProps {
     editedRecipe: Recipe;
     xrefs: IngredientInRecipeXref[];
-    ingridients: Ingredient[];
+    ingredients: Ingredient[];
+}
+
+export const calculateTotalValue = (name, xrefs, editedRecipe, ingredients) => {
+    console.log(name)
+    console.log(xrefs)
+    console.log(editedRecipe)
+    console.log(ingredients)
+
+    return xrefs.filter(x => x.recipeId == editedRecipe.id).map(y => ingredients.find(({ id }) => id == y.ingredientId)).map(z => z![name]).reduce((accumulator, current) => accumulator + current, 0)
 }
 
 function RecipeNutritionInfo(props: RecipeNutritionInfoProps) {
 
-    const { editedRecipe, xrefs, ingridients } = props;
-
-    const calculateTotalValue = (name) => {
-        return xrefs.filter(x => x.recipeId == editedRecipe.id).map(y => ingridients.find(({ id }) => id == y.ingredientId)).map(z => z![name]).reduce((accumulator, current) => accumulator + current, 0)
-    }
+    const { editedRecipe, xrefs, ingredients } = props;
 
     return (
         <div className="mb-2">
-            {ingridients && xrefs && editedRecipe &&
+            {ingredients && xrefs && editedRecipe &&
                 <div>
-                    <Badge bg="secondary" pill>
+                    <Badge data-testid="proteins-label" bg="secondary" pill>
                         <span>
-                            Total protein:  {
-                                calculateTotalValue('protein')
-                            }g
+                            <p>Total protein:  {
+                                calculateTotalValue('protein', xrefs, editedRecipe, ingredients).toString()
+                            }g</p>
                         </span>
                     </Badge>{' '}
                     <Badge bg="secondary" pill>
-                        Total Fat: {
-                            calculateTotalValue('fat')
-                        }g
+                        <p>Total Fat: {
+                            calculateTotalValue('fat', xrefs, editedRecipe, ingredients).toString()
+                        }g</p>
                     </Badge>{' '}
                     <Badge bg="secondary" pill>
-                        Total Carbs: {
-                            calculateTotalValue('carbs')
-                        }g
+                        <p> Total Carbs: {
+                            calculateTotalValue('carbs', xrefs, editedRecipe, ingredients).toString()
+                        }g</p>
                     </Badge>{' '}
                     <Badge bg="secondary" pill>
-                        Total kcal: {
-                            calculateTotalValue('kcal')
-                        }
+                        <p> Total kcal: {
+                            calculateTotalValue('kcal', xrefs, editedRecipe, ingredients).toString()
+                        }</p>
                     </Badge>{' '}
                 </div>
             }

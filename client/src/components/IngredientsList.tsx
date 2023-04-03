@@ -8,19 +8,19 @@ import Spinner from 'react-bootstrap/Spinner';
 import { handleError } from '../helpers/errorHandler';
 import Modal from 'react-bootstrap/Modal';
 
-interface IngridientsListProps {
+interface IngredientsListProps {
     mode?: string;
-    selectIngridient: (Ingridient) => void;
-    setOpenIngridientForm: (boolean) => void;
-    setIngridientDataToUpdate: (Ingrident) => void;
-    setIngridientFormMode: (string) => void;
+    selectIngredient: (Ingredient) => void;
+    setOpenIngredientForm: (boolean) => void;
+    setIngredientDataToUpdate: (Ingrident) => void;
+    setIngredientFormMode: (string) => void;
 }
 
-function IngridientsList(props: IngridientsListProps) {
+function IngredientsList(props: IngredientsListProps) {
 
-    const { data: ingridients, error: getIngridientsError, isLoading } = useGetAllIngredientsQuery();
+    const { data: Ingredients, error: getIngredientsError, isLoading } = useGetAllIngredientsQuery();
     const [deleteIngidient, { error: deleteIngidientError }] = useDeleteIngredientMutation();
-    const { mode, selectIngridient, setOpenIngridientForm, setIngridientFormMode, setIngridientDataToUpdate } = props;
+    const { mode, selectIngredient, setOpenIngredientForm, setIngredientFormMode, setIngredientDataToUpdate } = props;
     const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
     const [idToDelete, setIdToDelete] = useState<string>(``);
 
@@ -51,8 +51,8 @@ function IngridientsList(props: IngridientsListProps) {
 
                 </Modal.Footer>
             </Modal>
-            <h3>Ingridients List
-                <Button onClick={() => { setOpenIngridientForm(true); setIngridientFormMode("Create"); setIngridientDataToUpdate(null) }} variant="link">
+            <h3>Ingredients List
+                <Button onClick={() => { setOpenIngredientForm(true); setIngredientFormMode("Create"); setIngredientDataToUpdate(null) }} variant="link">
                     <FaPlus />
                 </Button>{' '}
             </h3>
@@ -64,15 +64,15 @@ function IngridientsList(props: IngridientsListProps) {
                         <span className="visually-hidden">Loading...</span>
                     </Spinner>
                     :
-                    getIngridientsError ?
-                        handleError(getIngridientsError) :
+                    getIngredientsError ?
+                        handleError(getIngredientsError) :
 
                         <ListGroup style={{ maxHeight: "350px", overflowY: "scroll" }} variant="flush">
-                            {(ingridients && ingridients.length) ?
-                                ingridients.map((x: Ingredient) =>
+                            {(Ingredients && Ingredients.length) ?
+                                Ingredients.map((x: Ingredient) =>
                                     <ListGroup.Item key={x.id}><span style={{ fontSize: "24px" }}>{x.name}</span>
                                         <div style={{ display: "inline", float: "right" }}>
-                                            <Button variant="outline-dark" onClick={() => { selectIngridient(x); setOpenIngridientForm(true); }}>
+                                            <Button variant="outline-dark" onClick={() => { selectIngredient(x); setOpenIngredientForm(true); }}>
                                                 <FaWrench />
                                             </Button>{' '}
                                             <Button variant="outline-dark"
@@ -95,4 +95,4 @@ function IngridientsList(props: IngridientsListProps) {
 }
 
 
-export default IngridientsList;
+export default IngredientsList;

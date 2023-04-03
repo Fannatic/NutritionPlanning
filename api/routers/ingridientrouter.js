@@ -2,10 +2,10 @@ const { Router } = require('express');
 const app = Router();
 const db = require('../dataAccess/sqlite');
 
-const ingridient = require('../controllers/ingridientcontroller')
+const ingridient = require('../controllers/ingredientcontroller')
 
-app.get("/Ingridients", (req, res, next) => {
-    var sql = "select * from Ingridients"
+app.get("/Ingredients", (req, res, next) => {
+    var sql = "select * from Ingredients"
     var params = []
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -18,7 +18,7 @@ app.get("/Ingridients", (req, res, next) => {
       });
 });
 
-app.post("/Ingridients/", (req, res, next) => {
+app.post("/Ingredients/", (req, res, next) => {
     // var errors=[]
     // if (!req.body.name){
     //     errors.push("No name provided");
@@ -38,7 +38,7 @@ app.post("/Ingridients/", (req, res, next) => {
         carbs : req.body.carbs,
         unitId : req.body.unitId,
     }
-    var sql ='INSERT INTO Ingridients (name, protein, fat, kcal, carbs, unitId) VALUES (?,?,?,?,?,?)'
+    var sql ='INSERT INTO Ingredients (name, protein, fat, kcal, carbs, unitId) VALUES (?,?,?,?,?,?)'
     var params =[data.name, data.protein, data.fat, data.carbs, data.kcal, data.unitId]
     db.run(sql, params, function (err, result) {
         if (err){
@@ -53,7 +53,7 @@ app.post("/Ingridients/", (req, res, next) => {
 })
 
 
-app.put("/Ingridients/:id", (req, res, next) => {
+app.put("/Ingredients/:id", (req, res, next) => {
     var data = {
         id: req.body.id,
         name: req.body.name,
@@ -63,7 +63,7 @@ app.put("/Ingridients/:id", (req, res, next) => {
         carbs : req.body.carbs,
         unitId : req.body.unitId
     }
-    var sql  = 'UPDATE Ingridients SET name = ?, protein = ?, fat = ?, kcal = ?, carbs = ?, unitId = ? WHERE id = ?';
+    var sql  = 'UPDATE Ingredients SET name = ?, protein = ?, fat = ?, kcal = ?, carbs = ?, unitId = ? WHERE id = ?';
     var params =[data.name, data.protein, data.fat, data.kcal, data.carbs, data.unitId, data.id]
     db.run(sql, params, function (err, result) {
         if (err){
@@ -77,7 +77,7 @@ app.put("/Ingridients/:id", (req, res, next) => {
     });
 })
 
-app.delete("/Ingridients/:id", (req, res, next) => {
+app.delete("/Ingredients/:id", (req, res, next) => {
 
     var param = req.params.id
 
@@ -85,13 +85,13 @@ app.delete("/Ingridients/:id", (req, res, next) => {
 
         db.run("BEGIN");
 
-        db.run(`delete from Ingridients where id = ${param}`, function (err, row) {
+        db.run(`delete from Ingredients where id = ${param}`, function (err, row) {
             if (err) {
                 console.log(err);
                 res.end("Transaction cancelled");
             }
             else {
-                db.run(`delete from IngridientsInRecipesXrefs where ingridientId = ${param}`, function (err, row) {
+                db.run(`delete from IngredientsInRecipesXrefs where ingridientId = ${param}`, function (err, row) {
                     if (err) {
                         console.log(err);
                         db.rollback;

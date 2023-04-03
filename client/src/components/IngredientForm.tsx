@@ -8,24 +8,24 @@ import { useAddIngredientMutation, useUpdateIngredientMutation } from '../app/In
 import { Ingredient } from "../interfaces";
 import { handleError } from '../helpers/errorHandler';
 
-interface IngridientFormProps {
+interface IngredientFormProps {
     mode?: string;
     callback?: void;
     dataToUpdate: Partial<Ingredient>;
-    setIngridientFormMode: (string) => void;
-    setIngridientDataToUpdate: (Ingridient) => void;
-    setOpenIngridientForm: (boolean) => void;
+    setIngredientFormMode: (string) => void;
+    setIngredientDataToUpdate: (Ingredient) => void;
+    setOpenIngredientForm: (boolean) => void;
 }
 
-function IngridientForm(props: IngridientFormProps) {
+function IngredientForm(props: IngredientFormProps) {
     const [validated, setValidated] = useState(false);
     const [editedData, setEditedData] = useState<Partial<Ingredient>>({});
     const [fadeOut, setFadeOut] = useState<boolean>(false);
 
-    const { mode, dataToUpdate, setOpenIngridientForm } = props;
+    const { mode, dataToUpdate, setOpenIngredientForm } = props;
 
-    const [addIngridient, { error: addIngridientError }] = useAddIngredientMutation();
-    const [updateIngridient, { error: updateIngridientError }] = useUpdateIngredientMutation();
+    const [addIngredient, { error: addIngredientError }] = useAddIngredientMutation();
+    const [updateIngredient, { error: updateIngredientError }] = useUpdateIngredientMutation();
 
     useEffect(() => {
         setEditedData(dataToUpdate);
@@ -52,25 +52,25 @@ function IngridientForm(props: IngridientFormProps) {
     const handleRequest = () => {
         setFadeOut(true);
         mode == "Update" ?
-            updateIngridient(editedData) : addIngridient(editedData)
-        setOpenIngridientForm(false);
+            updateIngredient(editedData) : addIngredient(editedData)
+        setOpenIngredientForm(false);
     }
 
 
     return (
         <div className={!fadeOut ? "fadeIn" : ""}>
             <h3>Ingrident Form</h3>
-            {(addIngridientError || updateIngridientError) &&
-                handleError(addIngridientError || updateIngridientError)
+            {(addIngredientError || updateIngredientError) &&
+                handleError(addIngredientError || updateIngredientError)
             }
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Row className="mb-3">
                     <Form.Group as={Col} md="4" controlId="validationCustom01">
-                        <Form.Label>Ingridient name</Form.Label>
+                        <Form.Label>Ingredient name</Form.Label>
                         <Form.Control
                             required
                             type="text"
-                            placeholder="Ingridient name"
+                            placeholder="Ingredient name"
                             value={editedData && editedData.name || ''}
                             onChange={handleDataChange}
                             name="name"
@@ -151,11 +151,11 @@ function IngridientForm(props: IngridientFormProps) {
                 <Button disabled={validated} onClick={handleRequest}>
                     {
                         mode == "Update" ?
-                            "Update ingridient" : "Add ingridient"
+                            "Update ingredient" : "Add ingredient"
                     }
                 </Button>
                 {' '}
-                <Button onClick={() => setOpenIngridientForm(false)}>
+                <Button onClick={() => setOpenIngredientForm(false)}>
                     Close
                 </Button>
 
@@ -166,4 +166,4 @@ function IngridientForm(props: IngridientFormProps) {
 }
 
 
-export default IngridientForm;
+export default IngredientForm;
